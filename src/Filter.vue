@@ -3,7 +3,7 @@
     <h2>Редактирование времени</h2>
     <ul class="editTime">
       <li v-for="time in timeArr">
-        <input type="radio" :value="time" :name="time" v-model="selectedTime">
+        <input type="radio" :value="time" :name="time" v-model="selectedTime" v-on:click="selectTask(time)">
         <label>{{time}}</label>
       </li>
     </ul>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+  import {eventEmitter} from './main'
 export default {
   data(){
     return{
@@ -20,6 +21,8 @@ export default {
     }
   },
   mounted() {
+      //параметры в пропсы?
+      //ошибка генерации времени
       let i;
       for(i=1000; i<=1330; i+=15){
         let x = String(i);
@@ -29,7 +32,17 @@ export default {
           this.timeArr.push(y);
         }
       }
-  }
+  },
+  methods: {
+    selectTask(time){
+      eventEmitter.$emit('taskSelected', time)
+    }
+  },
+  created() {
+    eventEmitter.$on('timeSelected', () => {
+
+    })
+  },
 }
 </script>
 

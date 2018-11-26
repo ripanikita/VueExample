@@ -10,6 +10,8 @@ import store from './store'
 Vue.use(VueAxios, axios)
 Vue.use(Vuelidate)
 
+export const eventEmitter = new Vue()
+
 new Vue({
   el: '#app',
   store,

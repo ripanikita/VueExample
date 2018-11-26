@@ -2,34 +2,54 @@
   <div>
     <ul v-if="$store.state.items && $store.state.items.length" class="taskList">
       <li v-for="item in sortedArray" :key="item.id">
-        <input type="checkbox" v-bind:value="item" v-model="selectedItems">
+        <input type="checkbox" v-bind:value="item" v-model="selectedItems"  @click="handle" class="gdsa" ref="checkb">
         <span>{{item.name}}</span> -
         <span>{{item.time}}</span>
         <button @click="deleteTask(item.id)">X</button>
       </li>
     </ul>
     <ul>
-      <li v-for="item in selectedItems">{{item.id}} - {{item.name}} - {{item.time}}</li>
+      <li v-for="item in selectedItems">{{item}}</li>
     </ul>
+    <span>{{x}}</span>
   </div>
 </template>
 
 <script>
+  import {eventEmitter} from './main'
   import axios from 'axios';
   import { mapState } from 'vuex';
 
   export default {
     data(){
       return{
-          selectedItems:[]
+          selectedItems:[],
+          x : 0
       }
     },
     mounted () {
       this.$store.dispatch('loadItems')
     },
+    created() {
+      eventEmitter.$on('taskSelected', (time) => {
+        let newArr = [];
+        this.$store.state.items.map(function(item) {
+          if(item.time == time){
+            newArr.push(item.name)
+          }
+        });
+        this.selectedItems = newArr;
+      })
+    },
     methods: {
       deleteTask(id){
         this.$store.dispatch('deleteItem',id);
+      },
+      handle(){
+        alert(this.$refs.checkb.innerHTML)
+      },
+      selectTime(){
+        //eventEmitter.$emit('timeSelected', x)
       }
     },
     computed: mapState([
