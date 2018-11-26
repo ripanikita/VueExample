@@ -1,9 +1,13 @@
 <template>
   <div>
-    <h2>Редактировнаие времени</h2>
-    <ul>
-      <li v-for="time in timeArr">{{ time }}</li>
+    <h2>Редактирование времени</h2>
+    <ul class="editTime">
+      <li v-for="time in timeArr">
+        <input type="radio" :value="time" :name="time" v-model="selectedTime">
+        <label>{{time}}</label>
+      </li>
     </ul>
+    <span><b>{{selectedTime}}</b></span>
   </div>
 </template>
 
@@ -11,7 +15,8 @@
 export default {
   data(){
     return{
-      timeArr:[]
+      timeArr:[],
+      selectedTime: ''
     }
   },
   mounted() {
@@ -29,5 +34,14 @@ export default {
 </script>
 
 <style>
-
+.editTime{
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+  margin-left: 0;
+  padding-left: 0;
+}
+.editTime li{
+  list-style-type: none;
+}
 </style>

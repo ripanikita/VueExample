@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <add />
     <hr />
     <filter1 />
@@ -23,5 +23,8 @@
 </script>
 
 <style>
-
+.main{
+  margin: 0 auto;
+  width: 800px;
+}
 </style>

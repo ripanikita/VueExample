@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Добавить новое событие</h1>
+    <h2>Добавить новое событие</h2>
     <form action="" @submit.prevent="onSubmit">
       <label for="name">Событие</label>
       <input type="text" v-model="name" id="name" @input="$v.name.$touch()" :class="{'invalid' : $v.name.$error}">

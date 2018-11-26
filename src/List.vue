@@ -1,13 +1,17 @@
 <template>
   <div>
-    <ul v-if="items && items.length">
+    <ul v-if="items && items.length" class="taskList">
       <li v-for="item in sortedArray" :key="item.id">
+        <input type="checkbox" v-bind:value="item" v-model="selectedItems">
         <span>{{item.name}}</span> -
         <span>{{item.time}}</span>
         <button @click="deleteTask(item.id)">X</button>
       </li>
     </ul>
     <span v-if="error && error.length">{{error}}</span>
+    <ul>
+      <li v-for="item in selectedItems">{{item.id}} - {{item.name}} - {{item.time}}</li>
+    </ul>
   </div>
 </template>
 
@@ -18,7 +22,8 @@
     data(){
       return{
           items:[],
-          error: ''
+          error: '',
+          selectedItems:[]
       }
     },
     mounted() {
@@ -44,7 +49,6 @@
             return 1;
           return 0;
         }
-
         return this.items.sort(compare);
       }
     }
@@ -52,5 +56,11 @@
 </script>
 
 <style>
-
+  .taskList{
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .taskList li{
+    list-style-type: none;
+  }
 </style>
