@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul v-if="items && items.length" class="taskList">
+    <ul v-if="$store.state.items && $store.state.items.length" class="taskList">
       <li v-for="item in sortedArray" :key="item.id">
         <input type="checkbox" v-bind:value="item" v-model="selectedItems">
         <span>{{item.name}}</span> -
@@ -8,7 +8,6 @@
         <button @click="deleteTask(item.id)">X</button>
       </li>
     </ul>
-    <span v-if="error && error.length">{{error}}</span>
     <ul>
       <li v-for="item in selectedItems">{{item.id}} - {{item.name}} - {{item.time}}</li>
     </ul>
@@ -17,29 +16,25 @@
 
 <script>
   import axios from 'axios';
+  import { mapState } from 'vuex';
 
   export default {
     data(){
       return{
-          items:[],
-          error: '',
           selectedItems:[]
       }
     },
-    mounted() {
-      axios
-        .get('http://exam.lenkomtech.ru/api/task')
-        .then(response => (this.items = response.data.items))
-        .catch(() => (this.error = 'Error'))
+    mounted () {
+      this.$store.dispatch('loadItems')
     },
     methods: {
       deleteTask(id){
-        axios
-         .delete('http://exam.lenkomtech.ru/api/task/'+id)
-         .then(() => {console.log('Ok')})
-         .catch(() => {console.log('Error')})
+        this.$store.dispatch('deleteItem',id);
       }
     },
+    computed: mapState([
+      'items'
+    ]),
     computed: {
       sortedArray: function() {
         function compare(a, b) {
@@ -49,7 +44,7 @@
             return 1;
           return 0;
         }
-        return this.items.sort(compare);
+        return this.$store.state.items.sort(compare);
       }
     }
   }
@@ -62,5 +57,8 @@
   }
   .taskList li{
     list-style-type: none;
+  }
+  .selected{
+    border: 1px solid red;
   }
 </style>

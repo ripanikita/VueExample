@@ -10,8 +10,6 @@
       <br />
       <button v-on:click="sendData" type="submit" :disabled="$v.$invalid">Добавить</button>
     </form>
-    <span v-if="done && done.length">{{done}}</span>
-    <span v-if="error && error.length">{{error}}</span>
   </div>
 </template>
 
@@ -23,9 +21,7 @@
     data(){
         return{
           name:'',
-          time:'',
-          done:'',
-          error: ''
+          time:''
         }
     },
     validations:{
@@ -48,19 +44,9 @@
         if(timeArr[0].length<2){
           this.time = '0'+this.time;
         }
-          axios
-            .post('http://exam.lenkomtech.ru/api/task',{
-                name: this.name,
-                time: this.time
-            },
-            {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-',
-              }
-            }
-            )
-            .then(() => {this.done = 'Готово'})
-            .catch(() => (this.error = 'Error'))
+        this.$store.dispatch('addItem', {
+          name: this.name,time: this.time
+        });
       },
       onSubmit(){
         console.log('ok')
@@ -70,7 +56,6 @@
 </script>
 
 <style>
-.invalid{background-color:#FFC9C9;}
-.show-feedback{display:block}
+
 </style>
 
