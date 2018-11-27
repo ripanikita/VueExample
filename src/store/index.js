@@ -40,6 +40,21 @@ export default new Vuex.Store({
         .delete('http://exam.lenkomtech.ru/api/task/'+id)
         .then(() => {commit('DELETE_ITEM', id)})
         .catch(() => {console.log('Error')})
+    },
+    patchItem({commit}, item) {
+      axios
+        .patch('http://exam.lenkomtech.ru/api/task/'+item.id,{
+            name: item.name,
+            time: item.time
+          },
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-',
+            }
+          }
+        )
+        .then(() => {console.log('ok')})
+        .catch(() => {console.log('Error')})
     }
   },
   mutations: {
@@ -50,8 +65,11 @@ export default new Vuex.Store({
       state.items.push(item)
     },
     DELETE_ITEM (state, id) {
-      let indexToRemove = state.items.findIndex(obj => obj.id == id);
-      state.items.splice(indexToRemove , 1);
+      let indexToRemove = state.items.findIndex(obj => obj.id == id)
+      state.items.splice(indexToRemove , 1)
+    },
+    PATCH_ITEM (state, id) {
+      console.log('ok')
     }
   }
 })

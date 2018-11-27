@@ -1,30 +1,33 @@
 <template>
   <div>
     <ul v-if="$store.state.items && $store.state.items.length" class="taskList">
-      <li v-for="item in sortedArray" :key="item.id">
-        <input type="checkbox" v-bind:value="item" v-model="selectedItems"  @click="handle" class="gdsa" ref="checkb">
-        <span>{{item.name}}</span> -
-        <span>{{item.time}}</span>
-        <button @click="deleteTask(item.id)">X</button>
+      <li v-for="item in sortedArray" :key="item.id" class="item">
+        <div class="check">
+          <sui-checkbox v-bind:value="item" v-model="selectedItems"  v-on:change="selectTime"/>
+        </div>
+        <div class="content">
+          <span>{{item.time}} - {{item.name}}</span>
+        </div>
+        <div class="delBtn">
+          <sui-button negative icon="close icon" @click="deleteTask(item.id)" />
+        </div>
       </li>
     </ul>
     <ul>
       <li v-for="item in selectedItems">{{item}}</li>
     </ul>
-    <span>{{x}}</span>
   </div>
 </template>
 
 <script>
   import {eventEmitter} from './main'
-  import axios from 'axios';
-  import { mapState } from 'vuex';
+  import axios from 'axios'
+  import { mapState } from 'vuex'
 
   export default {
     data(){
       return{
-          selectedItems:[],
-          x : 0
+          selectedItems: []
       }
     },
     mounted () {
@@ -35,7 +38,7 @@
         let newArr = [];
         this.$store.state.items.map(function(item) {
           if(item.time == time){
-            newArr.push(item.name)
+            newArr.push(item)
           }
         });
         this.selectedItems = newArr;
@@ -43,13 +46,10 @@
     },
     methods: {
       deleteTask(id){
-        this.$store.dispatch('deleteItem',id);
-      },
-      handle(){
-        alert(this.$refs.checkb.innerHTML)
+        this.$store.dispatch('deleteItem',id)
       },
       selectTime(){
-        //eventEmitter.$emit('timeSelected', x)
+        eventEmitter.$emit('timeSelected', this.selectedItems)
       }
     },
     computed: mapState([
@@ -64,7 +64,7 @@
             return 1;
           return 0;
         }
-        return this.$store.state.items.sort(compare);
+        return this.$store.state.items.sort(compare)
       }
     }
   }
@@ -80,5 +80,30 @@
   }
   .selected{
     border: 1px solid red;
+  }
+  .item{
+    height: 45px;
+    margin: 5px 0;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+  }
+  .item div{
+    box-sizing: border-box;
+    margin: 0 5px;
+    align-self:center;
+  }
+  .delBtn{
+    width: 40px;
+  }
+  .check{
+    width: 25px;
+  }
+  .content{
+    width: calc(100% - 100px);
+  }
+  .content span{
+    font-size: 18px;
+    position: relative;
+    top: -2px;
   }
 </style>
