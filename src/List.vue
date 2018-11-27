@@ -13,9 +13,6 @@
         </div>
       </li>
     </ul>
-    <ul>
-      <li v-for="item in selectedItems">{{item}}</li>
-    </ul>
   </div>
 </template>
 
@@ -77,9 +74,6 @@
   }
   .taskList li{
     list-style-type: none;
-  }
-  .selected{
-    border: 1px solid red;
   }
   .item{
     height: 45px;

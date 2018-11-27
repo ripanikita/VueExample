@@ -32,7 +32,6 @@ export default new Vuex.Store({
           }
         )
         .then(() => {commit('ADD_ITEM', item)})
-        //добавляется без ид, прислать новый ид в ответе сервера? или генерировать ид на фронте?
         .catch(() => (console.log('Error')))
     },
     deleteItem({commit}, id) {
@@ -65,7 +64,7 @@ export default new Vuex.Store({
       state.items.push(item)
     },
     DELETE_ITEM (state, id) {
-      let indexToRemove = state.items.findIndex(obj => obj.id == id)
+      let indexToRemove = state.items.findIndex(obj => obj.id == id);
       state.items.splice(indexToRemove , 1)
     },
     PATCH_ITEM (state, id) {

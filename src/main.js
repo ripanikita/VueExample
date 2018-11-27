@@ -12,10 +12,10 @@ Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);
 Vue.use(SuiVue);
 
-export const eventEmitter = new Vue()
+export const eventEmitter = new Vue();
 
 new Vue({
   el: '#app',
   store,
   render: h => h(App)
-})
+});

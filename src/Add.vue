@@ -51,9 +51,8 @@ export default {
   methods: {
     sendData(){
       let timeArr = this.time.split(':');
-      if(timeArr[0].length<2){
-        this.time = '0'+this.time
-      }
+      if(timeArr[1]<10 && timeArr[0].length<2){this.time = timeArr[0]+':0'+timeArr[1]}
+      if(timeArr[0].length<2){this.time = '0'+this.time}
       this.$store.dispatch('addItem', {
         name: this.name,time: this.time
       });
